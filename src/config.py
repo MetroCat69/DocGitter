@@ -8,10 +8,13 @@ logger = logging.getLogger(__name__)
 def create_glitter_dir() -> str | os.PathLike:
     home_dir = os.path.expanduser("~")
     glitter_dir = os.path.join(home_dir, ".glitter")
-    
+    cache_dir = os.path.join(glitter_dir, ".glitter_cache")
+
     if not os.path.exists(glitter_dir):
         os.makedirs(glitter_dir)
+        os.makedirs(cache_dir)
     return glitter_dir
+
 
 def create_glitter_config(dir_path: str | os.PathLike) -> str | os.PathLike:
     file_name = "glitter_config.json"
@@ -26,7 +29,7 @@ def create_glitter_config(dir_path: str | os.PathLike) -> str | os.PathLike:
     return file_path
 
 def update_glitter_config(config_file_path: str | os.PathLike, remote_url: str) -> None:
-    project_name = os.path.basename(os.path.dirname(config_file_path))
+    project_name = remote_url.split('/')[-1].split('.')[0]
     
     if os.path.exists(config_file_path):
         with open(config_file_path, 'r') as file:
@@ -39,11 +42,12 @@ def update_glitter_config(config_file_path: str | os.PathLike, remote_url: str) 
     with open(config_file_path, 'w') as file:
         json.dump(config_data, file, indent=4)
 
+def glitter_config_path(dir_path):
+    return os.path.join(dir_path, "glitter_config.json")
+
+
 def glitter_init() -> None:
     glitter_dir = create_glitter_dir()
     config_file_path = create_glitter_config(glitter_dir)
     logger.info("Glitter directory created at: %s", glitter_dir)
     logger.info("Glitter config file created at: %s", config_file_path)
-
-print("aaa")
-glitter_init()
