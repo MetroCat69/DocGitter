@@ -42,7 +42,7 @@ def update_glitter_config(config_file_path: str | os.PathLike, remote_url: str) 
     with open(config_file_path, 'w') as file:
         json.dump(config_data, file, indent=4)
 
-def glitter_config_path(dir_path):
+def get_glitter_config_path(dir_path):
     return os.path.join(dir_path, "glitter_config.json")
 
 
