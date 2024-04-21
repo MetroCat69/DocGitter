@@ -29,7 +29,6 @@ def create_glitter_config(dir_path: str | os.PathLike) -> str | os.PathLike:
     return file_path
 
 def update_glitter_config(config_file_path: str | os.PathLike, key: str, value:any) -> None:
-    project_name = remote_url.split('/')[-1].split('.')[0]
     
     with open(config_file_path, 'r') as file:
             config_data = json.load(file)
@@ -49,6 +48,11 @@ def get_glitter_config_data(config_file_path: str | os.PathLike) -> dict:
 def get_glitter_config_path(dir_path):
     return os.path.join(dir_path, "glitter_config.json")
 
+
+def get_glitter_config(glitter_project_path):
+     config_path = get_glitter_config_path(glitter_project_path)
+     config = get_glitter_config_data(config_path)
+     return config
 
 def glitter_init() -> None:
     glitter_dir = create_glitter_dir()
