@@ -2,10 +2,9 @@ import os
 from git import Repo
 import git
 import logging
-from config import update_glitter_config, glitter_init,get_glitter_config_path
+from config import update_glitter_config, glitter_init,get_glitter_config_path,get_glitter_config_data
 from exception import ProjectExistsError
 import shutil
-import json
 from file_conversion_handler import convert_files
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -47,13 +46,10 @@ def delete_project_and_remove_config(project_name: str, glitter_project_path: st
 
     # Update the Glitter configuration
     try:
-        with open(config_path, 'r') as f:
-            config = json.load(f)
+        config = get_glitter_config_data(config_path)
 
-        config['projects'] = {key: value for key, value in config['projects'].items() if key != project_name}
-
-        with open(config_path, 'w') as f:
-            json.dump(config, f, indent=2)
+        projects = {key: value for key, value in config['projects'].items() if key != project_name}
+        update_glitter_config(config_path,'projects',projects)
 
         logger.info(f"Project '{project_name}' has been removed from the Glitter configuration.")
     except Exception as e:
@@ -61,8 +57,7 @@ def delete_project_and_remove_config(project_name: str, glitter_project_path: st
 
 def list_created_projects(glitter_project_path: str):
      config_path = get_glitter_config_path(glitter_project_path)
-     with open(config_path, 'r') as f:
-            config = json.load(f)
+     config = get_glitter_config_data(config_path)
      return [p for p in config['projects'].keys()]
 
 
@@ -70,9 +65,7 @@ def list_created_projects(glitter_project_path: str):
 
 
 def add_and_update_files(input_path, project_name, glitter_project_path):
-    config_path = get_glitter_config_path(glitter_project_path)
-    with open(config_path, 'r') as f:
-            config = json.load(f)
+
     output_path = os.path.join(glitter_project_path, project_name)
     convert_files(input_path, output_path)
    
