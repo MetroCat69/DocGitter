@@ -1,7 +1,7 @@
 import click
 import os
 from config import glitter_init
-from glitter_project import create_new_project_from_remote_url,delete_project_and_remove_config,list_created_projects,add_and_update_files
+from glitter_project import create_new_project_from_remote_url,delete_project_and_remove_config,list_created_projects,add_and_update_files,move_current_project
 
 @click.group()
 def cli():
@@ -28,17 +28,23 @@ def delete_project(project_name, glitter_project_path):
 
 @cli.command()
 @click.option('--glitter_project_path', default=os.path.join(os.path.expanduser('~'), '.glitter'), help='Path where Glitter projects will be stored')
-def list_project(glitter_project_path):
-    projects = list_created_projects(glitter_project_path)
-    click.echo("project : {}".format(projects))
+def list_projects(glitter_project_path):
+    current_project,projects = list_created_projects(glitter_project_path)
+    click.echo(f"Current project: {current_project} \n projects : {projects}")
 
 
 @cli.command()
 @click.argument('input_path')
-@click.option('--project_name', default="files_backup")
 @click.option('--glitter_project_path', default=os.path.join(os.path.expanduser('~'), '.glitter'), help='Path where Glitter projects will be stored')
-def add(input_path,project_name,glitter_project_path):
-    add_and_update_files(input_path,project_name,glitter_project_path)
+def add(input_path,glitter_project_path):
+    add_and_update_files(input_path,glitter_project_path)
+
+
+@cli.command()
+@click.argument('project_name')
+@click.option('--glitter_project_path', default=os.path.join(os.path.expanduser('~'), '.glitter'), help='Path where Glitter projects will be stored')
+def change_current_project(project_name,glitter_project_path):
+    move_current_project(project_name,glitter_project_path)
 
 if __name__ == '__main__':
     cli()
