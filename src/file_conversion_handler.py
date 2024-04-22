@@ -1,11 +1,11 @@
-from file_convertors.docs_convertor import convert_docx_to_markdown
 import os
+from file_convertors.docs_convertor import convert_docx_to_markdown
 
 conversion_config_dict = {".docx": convert_docx_to_markdown}
 
 
 def convert_files(input_path, output_path):
-    for root, dirs, files in os.walk(input_path):
+    for root, _, files in os.walk(input_path):
         for file in files:
 
             input_file_path = os.path.join(root, file)

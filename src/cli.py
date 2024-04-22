@@ -22,14 +22,14 @@ def init():
 @cli.command()
 @click.argument("remote_url")
 def create_project(remote_url):
-    click.echo("Creating project from remote URL: {}".format(remote_url))
+    click.echo(f"Creating project from remote URL: {remote_url}")
     create_new_project_from_remote_url(remote_url)
 
 
 @cli.command()
 @click.argument("project_name", type=click.STRING)
 def delete_project(project_name):
-    click.echo("Deleting project : {}".format(project_name))
+    click.echo(f"Deleting project : {project_name}")
     delete_project_and_remove_config(project_name)
 
 
