@@ -11,14 +11,14 @@ glitter_config_file_path = os.path.join(glitter_dir, "glitter_config.json")
 cache_dir = os.path.join(glitter_dir, ".glitter_cache")
 
 
-def create_glitter_dir() -> str | os.PathLike:
+def create_glitter_dir() -> os.PathLike:
     if not os.path.exists(glitter_dir):
         os.makedirs(glitter_dir)
         os.makedirs(cache_dir)
     return glitter_dir
 
 
-def create_glitter_config() -> str | os.PathLike:
+def create_glitter_config() -> os.PathLike:
 
     config_data = {"projects": {}}
 

@@ -27,4 +27,4 @@ jobs:
           cp pyproject.toml $HOME/pyproject.toml
       - name: Analysing the code with pylint
         run: |
-          pylint --load-plugins pylint_pycharm --rcfile=$HOME/pyproject.toml $(git ls-files '*.py')
+          pylint --rcfile=$HOME/pyproject.toml $(git ls-files '*.py')
