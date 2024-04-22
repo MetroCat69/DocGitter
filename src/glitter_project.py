@@ -14,7 +14,7 @@ from typing import List, Tuple
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
+ 
 
 def check_glitter_exists_and_eror():
     glitter_path = get_glitter_dir_path()
