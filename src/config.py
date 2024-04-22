@@ -5,57 +5,54 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def create_glitter_dir() -> str | os.PathLike:
-    home_dir = os.path.expanduser("~")
-    glitter_dir = os.path.join(home_dir, ".glitter")
-    cache_dir = os.path.join(glitter_dir, ".glitter_cache")
+home_dir = os.path.expanduser("~")
+glitter_dir = os.path.join(home_dir, ".glitter")
+glitter_config_file_path = os.path.join(glitter_dir, "glitter_config.json")
+cache_dir = os.path.join(glitter_dir, ".glitter_cache")
 
+
+def create_glitter_dir() -> str | os.PathLike:
     if not os.path.exists(glitter_dir):
         os.makedirs(glitter_dir)
         os.makedirs(cache_dir)
     return glitter_dir
 
 
-def create_glitter_config(dir_path: str | os.PathLike) -> str | os.PathLike:
-    file_name = "glitter_config.json"
-    file_path = os.path.join(dir_path, file_name)
+def create_glitter_config() -> str | os.PathLike:
+
     config_data = {
         'projects':{}
     }
     
-    with open(file_path, 'w') as file:
+    with open(glitter_config_file_path, 'w') as file:
         json.dump(config_data, file)
     
-    return file_path
+    return glitter_config_file_path
 
-def update_glitter_config(config_file_path: str | os.PathLike, key: str, value:any) -> None:
+def update_glitter_config( key: str, value:any) -> None:
     
-    with open(config_file_path, 'r') as file:
+    with open(glitter_config_file_path, 'r') as file:
             config_data = json.load(file)
     
     config_data[key] = value
     
-    with open(config_file_path, 'w') as file:
+    with open(glitter_config_file_path, 'w') as file:
         json.dump(config_data, file, indent=4)
 
-def get_glitter_config_data(config_file_path: str | os.PathLike) -> dict:
-    with open(config_file_path, 'r') as file:
+def get_glitter_config() -> dict:
+    with open(glitter_config_file_path, 'r') as file:
             config_data = json.load(file)
     return config_data
 
+def get_glitter_dir_path():
+     return glitter_dir
 
-
-def get_glitter_config_path(dir_path):
-    return os.path.join(dir_path, "glitter_config.json")
-
-
-def get_glitter_config(glitter_project_path):
-     config_path = get_glitter_config_path(glitter_project_path)
-     config = get_glitter_config_data(config_path)
-     return config
+# def get_glitter_config():
+#      config = get_glitter_config_data()
+#      return config
 
 def glitter_init() -> None:
-    glitter_dir = create_glitter_dir()
+    create_glitter_dir()
     config_file_path = create_glitter_config(glitter_dir)
     logger.info("Glitter directory created at: %s", glitter_dir)
     logger.info("Glitter config file created at: %s", config_file_path)

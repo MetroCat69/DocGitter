@@ -13,38 +13,34 @@ def init():
 
 @cli.command()
 @click.argument('remote_url')
-@click.option('--glitter_project_path', default=os.path.join(os.path.expanduser('~'), '.glitter'), help='Path where Glitter projects will be stored')
-def create_project(remote_url, glitter_project_path):
+def create_project(remote_url):
     click.echo("Creating project from remote URL: {}".format(remote_url))
-    create_new_project_from_remote_url(remote_url, glitter_project_path)
+    create_new_project_from_remote_url(remote_url)
 
 @cli.command()
 @click.argument('project_name',type=click.STRING)
-@click.option('--glitter_project_path', default=os.path.join(os.path.expanduser('~'), '.glitter'), help='Path where Glitter projects will be stored')
-def delete_project(project_name, glitter_project_path):
+def delete_project(project_name):
     click.echo("Deleting project : {}".format(project_name))
-    delete_project_and_remove_config(project_name, glitter_project_path)
+    delete_project_and_remove_config(project_name)
 
 
 @cli.command()
-@click.option('--glitter_project_path', default=os.path.join(os.path.expanduser('~'), '.glitter'), help='Path where Glitter projects will be stored')
-def list_projects(glitter_project_path):
-    current_project,projects = list_created_projects(glitter_project_path)
-    click.echo(f"Current project: {current_project} \n projects : {projects}")
+def list_projects():
+    current_project,projects = list_created_projects()
+    if not (current_project ==None and projects==None):
+        click.echo(f"Current project: {current_project} \n projects : {projects}")
 
 
 @cli.command()
 @click.argument('input_path')
-@click.option('--glitter_project_path', default=os.path.join(os.path.expanduser('~'), '.glitter'), help='Path where Glitter projects will be stored')
-def add(input_path,glitter_project_path):
-    add_and_update_files(input_path,glitter_project_path)
+def add(input_path):
+    add_and_update_files(input_path)
 
 
 @cli.command()
 @click.argument('project_name')
-@click.option('--glitter_project_path', default=os.path.join(os.path.expanduser('~'), '.glitter'), help='Path where Glitter projects will be stored')
-def change_current_project(project_name,glitter_project_path):
-    move_current_project(project_name,glitter_project_path)
+def change_current_project(project_name):
+    move_current_project(project_name)
 
 if __name__ == '__main__':
     cli()
