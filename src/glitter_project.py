@@ -1,28 +1,27 @@
 import os
+from typing import List, Tuple
+import logging
+import shutil
 from git import Repo
 import git
-import logging
 from config import (
     update_glitter_config,
     glitter_init,
     get_glitter_dir_path,
     get_glitter_config,
 )
-import shutil
 from file_conversion_handler import convert_files
-from typing import List, Tuple
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
- 
- 
+
+
 def check_glitter_exists_and_eror():
     glitter_path = get_glitter_dir_path()
     if not os.path.exists(glitter_path):
         logger.error("No Glitter dir exists please create a project or init first")
         return True
-    else:
-        return False
+    return False
 
 
 def create_new_project_from_remote_url(remote_url: str) -> str:
@@ -61,29 +60,25 @@ def delete_project_and_remove_config(project_name: str) -> None:
     try:
         shutil.rmtree(project_dir)
         logger.info(f"Project directory '{project_dir}' has been deleted.")
-    except Exception as e:
-        logger.error(f"Failed to delete project directory '{project_dir}': {e}")
+    except PermissionError as pe:
+        logger.error(f"Permission denied: Failed to delete project directory '{project_dir}': {pe}")
         return
 
-    # Update the Glitter configuration
-    try:
-        config = get_glitter_config()
+    config = get_glitter_config()
 
-        projects = {
-            key: value
-            for key, value in config["projects"].items()
-            if key != project_name
-        }
-        update_glitter_config("projects", projects)
+    projects = {
+        key: value
+        for key, value in config["projects"].items()
+        if key != project_name
+    }
+    update_glitter_config("projects", projects)
 
-        if config.get("current project", "") == project_name:
-            update_glitter_config("current project", "none")
+    if config.get("current project", "") == project_name:
+        update_glitter_config("current project", "none")
 
-        logger.info(
-            f"Project '{project_name}' has been removed from the Glitter configuration."
-        )
-    except Exception as e:
-        logger.error(f"Failed to update Glitter configuration: {e}")
+    logger.info(
+        f"Project '{project_name}' has been removed from the Glitter configuration."
+    )
 
 
 def list_created_projects() -> Tuple[str, List[str]]:
@@ -92,7 +87,7 @@ def list_created_projects() -> Tuple[str, List[str]]:
         return None, None
 
     config = get_glitter_config()
-    projects = [p for p in config["projects"].keys()]
+    projects = config['projects'].keys()
     current_project = config.get("current project", "none")
     return current_project, projects
 

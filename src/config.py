@@ -22,7 +22,7 @@ def create_glitter_config() -> str | os.PathLike:
 
     config_data = {"projects": {}}
 
-    with open(glitter_config_file_path, "w") as file:
+    with open(glitter_config_file_path, "w", encoding="utf-8") as file:
         json.dump(config_data, file)
 
     return glitter_config_file_path
@@ -30,17 +30,17 @@ def create_glitter_config() -> str | os.PathLike:
 
 def update_glitter_config(key: str, value: any) -> None:
 
-    with open(glitter_config_file_path, "r") as file:
+    with open(glitter_config_file_path, "r", encoding="utf-8") as file:
         config_data = json.load(file)
 
     config_data[key] = value
 
-    with open(glitter_config_file_path, "w") as file:
+    with open(glitter_config_file_path, "w", encoding="utf-8") as file:
         json.dump(config_data, file, indent=4)
 
 
 def get_glitter_config() -> dict:
-    with open(glitter_config_file_path, "r") as file:
+    with open(glitter_config_file_path, "r", encoding="utf-8") as file:
         config_data = json.load(file)
     return config_data
 

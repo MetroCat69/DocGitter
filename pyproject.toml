@@ -1,0 +1,5 @@
+[tool.pylint.messages_control]
+disable = ["C0114", "C0116", "C0115"]
+
+[tool.pylint]
+max-line-length = 120
