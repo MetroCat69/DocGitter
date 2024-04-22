@@ -47,9 +47,6 @@ def get_glitter_config() -> dict:
 def get_glitter_dir_path():
      return glitter_dir
 
-# def get_glitter_config():
-#      config = get_glitter_config_data()
-#      return config
 
 def glitter_init() -> None:
     create_glitter_dir()
