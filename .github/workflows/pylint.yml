@@ -28,3 +28,7 @@ jobs:
       - name: Analysing the code with pylint
         run: |
           pylint --rcfile=$HOME/pyproject.toml $(git ls-files '*.py')
+      - name: test 
+        run: |
+        pytest
+
