@@ -5,7 +5,8 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-home_dir = os.path.expanduser("~")
+# home_dir = os.path.expanduser("~")
+home_dir = os.environ.get("HOME")
 glitter_dir = os.path.join(home_dir, ".glitter")
 glitter_config_file_path = os.path.join(glitter_dir, "glitter_config.json")
 cache_dir = os.path.join(glitter_dir, ".glitter_cache")
