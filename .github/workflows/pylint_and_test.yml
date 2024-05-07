@@ -1,4 +1,4 @@
-name: Pylint
+name: Pylint and test
 
 on: [push, pull_request]
 
@@ -25,9 +25,9 @@ jobs:
       - name: Copy pyproject.toml file
         run: |
           cp pyproject.toml $HOME/pyproject.toml
-      # - name: Analysing the code with pylint
-      #   run: |
-      #     pylint --rcfile=$HOME/pyproject.toml $(git ls-files '*.py')
+      - name: pylint
+        run: |
+           pylint --rcfile=$HOME/pyproject.toml $(git ls-files '*.py')
       - name: test 
         run: |
           pytest
